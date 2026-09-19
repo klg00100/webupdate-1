@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Name Collector</title>
+</head>
+
+<body>
+
+    <h1>Name Collector</h1>
+
+    <input type="text" id="nameInput" placeholder="Enter your name">
+
+    <button id="submitButton">Click</button>
+
+    <p id="message"></p>
+<a href = "https://wa.me/94768017350"> WhatSapp </a>
+
+    <script type="module">
+
+        import { createClient } from
+        "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+        const supabaseUrl = "https://hiuletpgoeugotknymwd.supabase.co";
+        const supabaseKey = "sb_publishable_n8Jtys4GGW8YFALUqnGMWA_ItYVngAo";
+
+        const supabase = createClient(
+            supabaseUrl,
+            supabaseKey
+        );
+
+        document.getElementById("submitButton").addEventListener("click", async function() {
+
+            const name = document.getElementById("nameInput").value.trim();
+
+            if (name === "") {
+                document.getElementById("message").textContent =
+                    "Please enter your name.";
+                return;
+            }
+
+            const { error } = await supabase
+                .from("name")
+                .insert({
+                    name: name
+                });
+
+            if (error) {
+                console.error(error);
+                document.getElementById("message").textContent =
+                    "Something went wrong.";
+                return;
+            }
+
+            document.getElementById("message").textContent =
+                "Name saved Successfully";
+
+            document.getElementById("nameInput").value = "";
+
+        });
+
+    </script>
+
+</body>
+</html>
